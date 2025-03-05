@@ -1,16 +1,16 @@
 all: up
 
 up:
-	docker compose up --build -d
+	docker-compose up --build -d
 
 down:
-	docker compose down
+	docker-compose down
 
 exec:
 	docker exec -it $(CONT) bash
 
 restart:
-	docker compose restart
+	docker-compose restart
 
 re:
 	make down

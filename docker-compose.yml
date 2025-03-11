@@ -22,5 +22,4 @@ services:
       context: ./srcs/ai-preprocessing
       dockerfile: Dockerfile  # 아래에 Dockerfile 예시 참고
     volumes:
-      - ./srcs/ai-preprocessing:/data 
-      - ./srcs/ai-preprocessing:/script
+      - ./srcs/ai-preprocessing/project:/project

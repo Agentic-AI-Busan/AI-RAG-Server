@@ -124,5 +124,13 @@ def create_vectordb(data_path: str | Path, index_name: str, encoding: str = "utf
 
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("⚠️ 파일 이름을 입력해주세요")
+        exit(1)
+    if len(sys.argv) < 3:
+        print("⚠️ 저장될 벡터저장소 이름을 입력해주세요")
+        exit(1)
+    
     data_path = sys.argv[1]
-    create_vectordb(data_path=data_path, index_name="restaurant_finder")
+    index_name = sys.argv[2]
+    create_vectordb(data_path=data_path, index_name=index_name)

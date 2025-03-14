@@ -25,16 +25,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
       
-      - name: Build Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: false
-          load: true
-          tags: myapp:test
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-      
+      - name: Build with docker-compose
+        run: docker-compose build
+
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache

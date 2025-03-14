@@ -1,4 +1,5 @@
-FROM jeongtj/langchain-rag
+# FROM jeongtj/langchain-rag
+FROM python:3.11-slim
 
 WORKDIR /project
 

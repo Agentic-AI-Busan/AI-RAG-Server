@@ -1,5 +1,3 @@
-uvicorn
-fastapi
 pandas
 tqdm
 python-dotenv

@@ -4,7 +4,7 @@ AI RAG서버용 리포지토리입니다.
 - 깃허브 readme에 테스트 방법 작성
     1. [`https://app.docker.com/auth/desktop/redirect?code=zFNfmkeLy5_7-sb7gVnSh_42TJEd98tuGFwmmGHMH_bD4&state=B_I9FtCHqcoV3XqY-a5lZGAxdhRqKJuMaDNWlTVr86E`](https://app.docker.com/auth/desktop/redirect?code=zFNfmkeLy5_7-sb7gVnSh_42TJEd98tuGFwmmGHMH_bD4&state=B_I9FtCHqcoV3XqY-a5lZGAxdhRqKJuMaDNWlTVr86E) 링크에 들어가서 Docker Desktop 기본 설정으로 설치
     2. Docker Desktop 실행 
-    3. 프로젝트 clone 한 뒤 .env.local에 있는 환경변수 설정 후 .env로 파일이름 변경 
+    3. 프로젝트 clone 한 뒤 .env.local에 있는 환경변수 설정 후 .env로 파일이름 변경
     4. 실행
         1. in Window
             1. docker-compose.yml파일이 있는 디렉토리로 이돔

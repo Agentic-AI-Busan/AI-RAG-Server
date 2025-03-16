@@ -19,6 +19,10 @@ def load_vectordb(index_name: str):
         vectordb_path = project_root / "vectordb" / index_name
 
         if not vectordb_path.exists():
+            index_name = "dummy_finder"
+            vectordb_path = project_root / "vectordb" / index_name
+
+        if not vectordb_path.exists():
             raise FileNotFoundError(f"Vector DB not found at {vectordb_path}")
 
         vectorstore = FAISS.load_local(

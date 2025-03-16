@@ -21,3 +21,7 @@ app.include_router(restaurant.router)
 @app.get("/")
 async def root():
     return {"message": "Travel Agent API is running"}
+
+@app.get("/health")
+async def root():
+    return {"status": "ok"}

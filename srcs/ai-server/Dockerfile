@@ -3,6 +3,8 @@ FROM python:3.11-slim
 
 WORKDIR /project
 
+RUN apt update && apt install -y curl
+
 COPY ./requirements.txt /project/
 COPY ./entrypoint.sh /home/entrypoint.sh
 

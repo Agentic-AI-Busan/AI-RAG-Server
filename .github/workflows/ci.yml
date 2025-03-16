@@ -47,7 +47,7 @@ jobs:
           sleep 10
           
           # 간단한 상태 확인
-          curl -f http://localhost:8000/health || exit 1
+          curl -f http://localhost:80/health || exit 1
           
           # 컨테이너 종료
           docker-compose -f docker-compose.test.yml down

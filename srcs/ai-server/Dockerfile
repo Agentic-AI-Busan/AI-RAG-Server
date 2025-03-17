@@ -1,9 +1,14 @@
-FROM jeongtj/langchain-rag
+# FROM jeongtj/langchain-rag
+FROM python:3.11-slim
 
 WORKDIR /project
 
-COPY requirements.txt /project/
-COPY entrypoint.sh /home/entrypoint.sh
+RUN apt update && apt install -y curl
+
+COPY ./requirements.txt /project/
+COPY ./entrypoint.sh /home/entrypoint.sh
+
+RUN sed -i 's/\r//' /home/entrypoint.sh
 
 RUN pip install -r requirements.txt
 RUN chmod +x /home/entrypoint.sh

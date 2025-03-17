@@ -1,0 +1,13 @@
+pandas
+tqdm
+python-dotenv
+langchain-community
+langchain-openai
+langchain-core
+faiss-cpu
+langsmith
+cohere
+networkx
+requests
+langchain
+langchainhub

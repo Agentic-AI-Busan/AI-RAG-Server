@@ -21,9 +21,11 @@ jobs:
           
           # SSH 연결 및 명령어 실행 (StrictHostKeyChecking=no로 호스트 키 확인 건너뛰기)
           ssh -o StrictHostKeyChecking=no -i deploy_key.pem ${{ secrets.PROD_USERNAME }}@${{ secrets.PROD_HOST }} '
-            cd /path/to/project &&
-            docker-compose pull &&
-            docker-compose up -d
+            cd ~/ai-server-test
+            git remote update
+            git checkout main
+            git pull origin main
+            make
           '
           
           # 키 파일 삭제

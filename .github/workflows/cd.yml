@@ -20,6 +20,8 @@ jobs:
           username: ${{ secrets.PROD_USERNAME }}
           key: ${{ secrets.PROD_SSH_KEY }}
           script: |
-            cd /path/to/project
+            cd ~/ai-server-test
+            git remote update
+            git checkout main
             git pull origin main
-            make deploy  # Makefile을 통한 배포
+            make # Makefile을 통한 배포

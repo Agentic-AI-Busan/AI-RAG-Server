@@ -19,6 +19,7 @@ jobs:
           host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.PROD_USERNAME }}
           key: ${{ secrets.PROD_SSH_KEY }}
+          known_hosts: accept-new 
           script: |
             cd ~/ai-server-test
             git remote update

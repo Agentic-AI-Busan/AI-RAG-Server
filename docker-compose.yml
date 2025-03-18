@@ -6,7 +6,7 @@ services:
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
     build:
-      context: ./srcs/ai-server
+      context: ./ai-server
       dockerfile: Dockerfile  # 아래에 Dockerfile 예시 참고
     volumes:
       - ./ai-server/project:/project
@@ -19,7 +19,7 @@ services:
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
     build:
-      context: ./srcs/ai-preprocessing
+      context: ./ai-preprocessing
       dockerfile: Dockerfile  # 아래에 Dockerfile 예시 참고
     volumes:
       - ./ai-preprocessing/project:/project

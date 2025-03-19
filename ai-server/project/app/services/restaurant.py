@@ -1,5 +1,7 @@
 from typing import Dict, Any
 from langchain_core.prompts import PromptTemplate
+from langchain.callbacks.tracers import LangChainTracer
+from langchain_core.tracers.context import collect_runs
 from .base import BaseService
 
 
@@ -44,6 +46,7 @@ class RestaurantService(BaseService):
         return {"answer": llm_response, "restaurant_ids": response_restaurant_ids}
 
     async def search_restaurants(self, query: str) -> Dict[str, Any]:
+        # 환경 변수만으로 LangSmith 추적
         docs = await self.retriever.ainvoke(query)
         context = "\n\n".join([doc.page_content for doc in docs])
 

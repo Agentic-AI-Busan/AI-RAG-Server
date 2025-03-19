@@ -1,10 +1,13 @@
-
 services:
   ai-server:
     init: true
     container_name: ai-server
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LANGCHAIN_TRACING_V2: ${LANGCHAIN_TRACING_V2}
+      LANGCHAIN_ENDPOINT: ${LANGCHAIN_ENDPOINT}
+      LANGCHAIN_API_KEY: ${LANGCHAIN_API_KEY}
+      LANGCHAIN_PROJECT: ${LANGCHAIN_PROJECT}
     build:
       context: ./ai-server
       dockerfile: Dockerfile  # 아래에 Dockerfile 예시 참고

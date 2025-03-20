@@ -1,5 +1,6 @@
 from typing import Dict, Any
 from langchain_core.prompts import PromptTemplate
+from langchain_core.tracers.context import collect_runs
 from .base import BaseService
 
 class AttractionService(BaseService):
@@ -50,13 +51,13 @@ class AttractionService(BaseService):
         return {"answer": llm_response, "attraction_ids": response_attraction_ids}
 
     async def search_attractions(self, query: str) -> Dict[str, Any]:
-        docs = await self.retriever.ainvoke(query)
+        # LangSmith 추적 시작
+        with collect_runs() as cb:
+            docs = await self.retriever.ainvoke(query, config={"callbacks": cb})
+            context = "\n\n".join([doc.page_content for doc in docs])
 
+            chain_input = {"attraction_info": context, "user_request": query}
 
-        context = "\n\n".join([doc.page_content for doc in docs])
+            response = await self.llm.ainvoke(self.prompt.format(**chain_input), config={"callbacks": cb})
 
-        chain_input = {"attraction_info": context, "user_request": query}
-
-        response = await self.llm.ainvoke(self.prompt.format(**chain_input))
-
-        return self.process_attraction_response(docs, response.content)
+            return self.process_attraction_response(docs, response.content)

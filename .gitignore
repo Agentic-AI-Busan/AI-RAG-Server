@@ -1,4 +1,5 @@
 .env
 __pycache__
-data
-tmux-script/
+vectordb
+Requirement
+model_cache

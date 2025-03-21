@@ -5,7 +5,7 @@ tqdm
 python-dotenv
 langchain-community
 langchain-openai
-langchain-core
+langchain-core>=0.2.0
 faiss-cpu
 langsmith
 cohere
@@ -13,3 +13,4 @@ networkx
 requests
 langchain
 langchainhub
+sentence-transformers

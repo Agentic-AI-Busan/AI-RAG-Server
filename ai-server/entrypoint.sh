@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p /project/model_cache
+
 # 환경 변수에 따라 실행 모드 결정
 if [ "$ENV" = "test" ]; then
   echo "Running in TEST mode"
@@ -30,5 +32,5 @@ if [ "$ENV" = "test" ]; then
 else
   # 프로덕션 모드 실행
   echo "Running in PRODUCTION mode"
-  uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+  uvicorn app.main:app --host 0.0.0.0 --port 8000
 fi

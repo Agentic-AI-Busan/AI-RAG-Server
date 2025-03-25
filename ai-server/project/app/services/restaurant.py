@@ -5,21 +5,34 @@ from .base import BaseService
 
 
 class RestaurantService(BaseService):
-    def __init__(self, use_reranker: bool = True, initial_k: int = 20, final_k: int = 20):
+    def __init__(
+        self, 
+        use_reranker: bool = True, 
+        use_hybrid: bool = True,
+        hybrid_alpha: float = 0.8,
+        initial_k: int = 20, 
+        final_k: int = 20
+    ):
         """
         레스토랑 검색 서비스 초기화
 
         Args:
             use_reranker (bool): Reranker 사용 여부
+            use_hybrid (bool): 하이브리드 검색(TMM-CC) 사용 여부
+            hybrid_alpha (float): 하이브리드 검색 알파 값 (0.0~1.0, 기본값 0.8)
             initial_k (int): 초기 검색 문서 수
             final_k (int): 최종 반환 문서 수
         """
+        print(f"레스토랑 서비스 초기화: use_reranker={use_reranker}, use_hybrid={use_hybrid}, hybrid_alpha={hybrid_alpha}")
         super().__init__(
             vectordb_name="restaurant_finder",
             use_reranker=use_reranker,
+            use_hybrid=use_hybrid,
+            hybrid_alpha=hybrid_alpha,
             initial_k=initial_k,
             final_k=final_k
         )
+        print(f"레스토랑 서비스 초기화 완료")
 
         self.template = """
         당신은 레스토랑 추천 AI입니다. 주어진 맥락을 바탕으로 사용자의 질문에 답변해주세요.
@@ -79,7 +92,7 @@ class RestaurantService(BaseService):
         """
         # LangSmith 추적 시작 - 이 컨텍스트 매니저는 LangSmith에서 실행 추적을 위해 필요함
         with collect_runs():
-            # Advanced RAG 검색기로 관련 문서 검색 (Reranker 적용됨)
+            # 하이브리드 검색 또는 Advanced RAG 검색기로 관련 문서 검색
             docs = await self.retriever.aretrieve(query)
 
             # 검색된 문서 내용을 컨텍스트로 결합

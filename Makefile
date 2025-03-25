@@ -18,3 +18,10 @@ re:
 
 freeze:
 	docker exec ai-server pip freeze > ./srcs/ai-server/requirements.txt.local
+
+rebuild-service:
+	docker-compose build $(SVC)
+	docker-compose up -d $(SVC)
+
+rebuild-ai:
+	make rebuild-service SVC=ai-server

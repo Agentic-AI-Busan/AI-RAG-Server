@@ -4,21 +4,34 @@ from langchain_core.tracers.context import collect_runs
 from .base import BaseService
 
 class AttractionService(BaseService):
-    def __init__(self, use_reranker: bool = True, initial_k: int = 20, final_k: int = 5):
+    def __init__(
+        self,
+        use_reranker: bool = True,
+        use_hybrid: bool = True,
+        hybrid_alpha: float = 0.8,
+        initial_k: int = 20,
+        final_k: int = 20
+    ):
         """
         관광지 검색 서비스 초기화
 
         Args:
             use_reranker (bool): Reranker 사용 여부
+            use_hybrid (bool): 하이브리드 검색(TMM-CC) 사용 여부
+            hybrid_alpha (float): 하이브리드 검색 알파 값 (0.0~1.0, 기본값 0.8)
             initial_k (int): 초기 검색 문서 수
             final_k (int): 최종 반환 문서 수
         """
+        print(f"관광지 서비스 초기화: use_reranker={use_reranker}, use_hybrid={use_hybrid}, hybrid_alpha={hybrid_alpha}")
         super().__init__(
             vectordb_name="attraction_finder",
             use_reranker=use_reranker,
+            use_hybrid=use_hybrid,
+            hybrid_alpha=hybrid_alpha,
             initial_k=initial_k,
             final_k=final_k
         )
+        print(f"관광지 서비스 초기화 완료")
 
         self.template = """
         당신은 어트랙션 추천 AI입니다. 주어진 맥락을 바탕으로 사용자의 질문에 답변해주세요.

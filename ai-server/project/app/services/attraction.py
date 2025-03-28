@@ -2,6 +2,8 @@ from typing import Dict, Any, List
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tracers.context import collect_runs
 from .base import BaseService
+import re
+
 
 class AttractionService(BaseService):
     def __init__(
@@ -42,10 +44,10 @@ class AttractionService(BaseService):
         사용자 질문: {user_request}
 
         다음 지침을 따라 답변해주세요:
-        1. 하나의 #문자 뒤에있는 부분에서 어트랙션의 이름 입니다.
-        2. 꼭 해당부분줄의 "# " 을 제외한 모든 텍스트를 그대로 어트랙션 이름으로 써주세요. (예: # '모두를 위한 부산여행' -> "모두를 위한 부산여행")
-        3. 각 어트랙션의 이름을 정확히 큰따옴표로 감싸서 언급해주세요. (예: "모두를 위한 부산여행")
-        4. 각 어트랙션의 주요 특징을 간단히 설명해주세요.
+        1. 각 어트랙션의 이름을 정확히 큰따옴표로 감싸서 언급해주세요. (예: "모두를 위한 부산여행")
+        2. 각 어트랙션의 주요 특징을 간단히 설명해주세요.
+        3. 각 문서 처음에 있는 대괄호 부분은 인덱스 번호 입니다. (예: [11] -> 11번 인덱스)
+        4. 꼭 언급한 어트랙션 이름에 해당하는 인덱스 번호를 마지막에만 추가로 언급해주세요, 하나의 인덱스 번호는 한번만 언급해주세요 (예: 추천드린 어트랙션의 인덱스 번호는 다음과 같습니다: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
         어트랙션 정보를 바탕으로 사용자의 질문에 답변해주세요.
         """
@@ -62,27 +64,26 @@ class AttractionService(BaseService):
         Returns:
             Dict[str, Any]: LLM 응답과 어트랙션 ID 목록을 담은 딕셔너리
         """
-        mentioned_attractions = {}
+        # 텍스트를 줄 단위로 분할
+        llm_lines = llm_response.strip().split('\n')
+        # 마지막 줄 가져오기
+        llm_last_line = llm_lines[-1]
+        
+        # 대괄호 안의 숫자 리스트를 찾기 위한 정규식 패턴
+        pattern = r'\[([\d\s,]+)\]'
 
-        for doc in docs:
-            content = doc.page_content
-            content_id = doc.metadata["content_id"]
+        # 패턴 찾기
+        match = re.search(pattern, llm_last_line)
 
-            for line in content.split("\n"):
-                if line.startswith("# "):
-                    attraction_name = line.replace("# ", "").strip("'")
-                    print(attraction_name)
-                    mentioned_attractions[attraction_name] = content_id
-                    break
-        print(mentioned_attractions)
-        print(llm_response)
+        numbers_str = match.group(1)
+        # 문자열을 숫자 리스트로 변환
+        indexs = [int(num.strip()) for num in numbers_str.split(',')]
 
         response_attraction_ids = []
-        for attraction_name in mentioned_attractions.keys():
-            print(f"attraction_name: '{attraction_name}'")
-            print(attraction_name in llm_response)
-            if attraction_name in llm_response:
-                response_attraction_ids.append(mentioned_attractions[attraction_name])
+        for index in indexs:
+            # content = docs[index].page_content
+            content_id = docs[index].metadata["content_id"]
+            response_attraction_ids.append(content_id)
 
         return {"answer": llm_response, "attraction_ids": response_attraction_ids}
 
@@ -101,8 +102,11 @@ class AttractionService(BaseService):
             # Advanced RAG 검색기로 관련 문서 검색 (Reranker 적용됨)
             docs = await self.retriever.aretrieve(query)
             
-            # 검색된 문서 내용을 컨텍스트로 결합
-            context = "\n\n".join([doc.page_content for doc in docs])
+            # 각 정보 앞에 docs의 순서에 맞는 인덱스 번호 부여
+            context = ""
+            for index, doc in enumerate(docs):
+                context += f"[{index}]: "
+                context += doc.page_content + "\n\n"
 
             # LLM에 프롬프트 입력
             chain_input = {"attraction_info": context, "user_request": query}

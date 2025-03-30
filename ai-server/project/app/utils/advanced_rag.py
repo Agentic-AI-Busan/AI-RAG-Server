@@ -2,6 +2,7 @@ from typing import List, Dict, Any
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
 from .reranker import KoreanReranker, create_korean_reranker
+import traceback
 
 
 class AdvancedRAGRetriever:
@@ -35,6 +36,8 @@ class AdvancedRAGRetriever:
             self.reranker = create_korean_reranker(top_k=final_k)
         else:
             self.reranker = reranker
+        
+        print(f"Advanced RAG 검색기 초기화 완료: initial_k={initial_k}, final_k={final_k}")
     
     async def aretrieve(self, query: str) -> List[Document]:
         """
@@ -101,6 +104,8 @@ def create_advanced_rag_retriever(
     Returns:
         AdvancedRAGRetriever: 생성된 Advanced RAG 검색기
     """
+    print(f"Advanced RAG 검색기 생성 시작: initial_k={initial_k}, final_k={final_k}")
+    
     # 초기 검색에 사용할 검색기 설정 (k값 변경)
     if hasattr(base_retriever, "search_kwargs"):
         base_retriever.search_kwargs["k"] = initial_k
@@ -109,9 +114,12 @@ def create_advanced_rag_retriever(
     reranker = create_korean_reranker(top_k=final_k)
     
     # 고급 검색기 생성 및 반환
-    return AdvancedRAGRetriever(
+    retriever = AdvancedRAGRetriever(
         base_retriever=base_retriever,
         reranker=reranker,
         initial_k=initial_k,
         final_k=final_k
-    ) 
+    )
+    
+    print(f"Advanced RAG 검색기 생성 완료")
+    return retriever 

@@ -60,7 +60,7 @@ class RestaurantService(BaseService):
         print(f"레스토랑 서비스 초기화 완료")
 
         # 반환받을 Json파서 설정
-        self.parser = JsonOutputParser(pydantic_object=AttractionResponse)
+        self.parser = JsonOutputParser(pydantic_object=RestaurantResponse)
         
         # 프롬프트 구성
         prompt = ChatPromptTemplate.from_messages([

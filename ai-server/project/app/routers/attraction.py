@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import Dict, Any
-from app.services.attraction import AttractionService
+from app.services.attraction import AttractionService, AttractionResponse
 from pydantic import BaseModel, validator
 from datetime import datetime, date
 from typing import Union
@@ -42,7 +42,7 @@ class AttractionSearchRequest(BaseModel):
         query += f"{days_count * 2}개의 장소를 추천해주세요."
         return query
 
-@router.post("/search")
+@router.post("/search", response_model=AttractionResponse)
 async def search_attractions(request: AttractionSearchRequest) -> Dict[str, Any]:
     """
     어트랙션 검색 엔드포인트

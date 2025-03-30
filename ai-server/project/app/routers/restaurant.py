@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import Dict, Any
-from app.services.restaurant import RestaurantService
+from app.services.restaurant import RestaurantService, RestaurantResponse
 from pydantic import BaseModel, validator
 from datetime import datetime, date
 from typing import Union
@@ -42,7 +42,7 @@ class RestaurantSearchRequest(BaseModel):
         query += f"{days_count * 3}개의 장소를 추천해주세요."
         return query
 
-@router.post("/search")
+@router.post("/search", response_model=RestaurantResponse)
 async def search_restaurants(request: RestaurantSearchRequest) -> Dict[str, Any]:
     """
     레스토랑 검색 엔드포인트

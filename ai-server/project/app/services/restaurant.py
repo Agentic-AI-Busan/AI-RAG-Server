@@ -25,7 +25,7 @@ class Recommendation(BaseModel):
     recommendations: 추천 장소에 대한 리스트
     restaurant_ids: 백엔드에서 요청하는 장소 ID
 """
-class AttractionResponse(BaseModel):
+class RestaurantResponse(BaseModel):
     recommendations: List[Recommendation]
     restaurant_ids: List[int]
 

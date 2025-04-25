@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import restaurant, attraction, other_service
+from app.routers import restaurant, attraction, query_router, other_service
 
-app = FastAPI(title="Travel Agent API")
+app = FastAPI(title="Agentic AI Busan API")
 
 # CORS 설정
 app.add_middleware(
@@ -16,6 +16,7 @@ app.add_middleware(
 # 라우터 등록
 app.include_router(restaurant.router)
 app.include_router(attraction.router)
+app.include_router(query_router.router)
 # app.include_router(other_service.router)  # 추후 다른 서비스 추가 시 사용
 
 @app.get("/")

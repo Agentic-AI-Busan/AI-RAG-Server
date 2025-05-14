@@ -27,7 +27,8 @@ class QueryRouterService:
         )
         # 라우팅을 위한 프롬프트 템플릿 정의
         self._define_routing_prompt()
-        self.routing_chain = LLMChain(llm=self.llm, prompt=self.routing_prompt)
+        # self.routing_chain = LLMChain(llm=self.llm, prompt=self.routing_prompt)
+        self.routing_chain = self.routing_prompt | self.llm
         print("QueryRouterService 초기화 완료")
 
     def _define_routing_prompt(self):
@@ -80,9 +81,14 @@ class QueryRouterService:
 
         try:
             # LLMChain 실행 (비동기 실행 고려)
-            response = await self.routing_chain.arun(query=query, chat_history=formatted_history)
+            # response = await self.routing_chain.arun(query=query, chat_history=formatted_history)
+            response = await self.routing_chain.ainvoke({
+                                                            "query": query,
+                                                            "chat_history": formatted_history
+                                                        })
             # LLM 응답에서 카테고리 추출 (소문자 변환 및 공백 제거)
-            predicted_category = response.strip().lower()
+            print(f"response: {response}")
+            predicted_category = response.content.strip().lower()
             print(f"LLM 라우팅 결과: '{predicted_category}'")
 
             # 유효한 카테고리인지 확인

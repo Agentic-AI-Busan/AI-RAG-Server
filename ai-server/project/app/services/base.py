@@ -109,6 +109,14 @@ class BaseService:
             initial_k (int): 초기 검색에서 가져올 문서 수
             final_k (int): 최종 반환할 문서 수
         """
+        # 벡터 DB가 None인 경우 (일반 챗봇 등) 기본 검색기만 초기화
+        if vectordb_name is None:
+            self.vectorstore = None
+            self.retriever = None
+            self.llm = ChatOpenAI(model_name=model_name, temperature=temperature, max_tokens=8192)
+            return
+
+        # 벡터 DB가 있는 경우 기존 로직 실행
         self.vectorstore = load_vectordb(vectordb_name)
         
         # 기본 벡터 검색기 설정

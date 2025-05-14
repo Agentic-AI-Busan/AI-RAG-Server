@@ -26,3 +26,4 @@ services:
       dockerfile: Dockerfile  # 아래에 Dockerfile 예시 참고
     volumes:
       - ./ai-preprocessing/project:/project
+      - ./data:/project/data

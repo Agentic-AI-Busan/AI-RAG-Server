@@ -65,15 +65,15 @@ class RestaurantService(BaseService):
         # 프롬프트 구성
         prompt = ChatPromptTemplate.from_messages([
             ("system", """
-            당신은 어트랙션 추천 AI입니다. 주어진 맥락을 바탕으로 사용자의 질문에 답변해주세요.
+            당신은 식당 추천 AI입니다. 주어진 맥락을 바탕으로 사용자의 질문에 답변해주세요.
             
             다음 지침을 따라 답변해주세요:
             1. 각 문서 처음에 있는 대괄호 부분은 인덱스 번호 입니다.
-            2. 사용자 질문에 맞는 어트랙션을 선택하여 name과 description과 index 형태로 제공해주세요.
-            3. 선택한 어트랙션의 인덱스 번호를 restaurant_ids 리스트에 포함해주세요.
+            2. 사용자 질문에 맞는 식당을 선택하여 name과 description과 index 형태로 제공해주세요.
+            3. 선택한 식당의 인덱스 번호를 restaurant_ids 리스트에 포함해주세요.
             4. 반드시 지정된 JSON 형식으로 응답해주세요.
             """),
-            ("user", "어트랙션 정보: {restaurant_info}\n\n사용자 질문: {user_request}\n\n{format_instructions}")
+            ("user", "식당 정보: {restaurant_info}\n\n사용자 질문: {user_request}\n\n{format_instructions}")
         ])
 
         # 프롬프트에 형식 지침 추가 

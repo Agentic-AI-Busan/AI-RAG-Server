@@ -3,3 +3,5 @@ __pycache__
 vectordb
 Requirement
 model_cache
+graphdb
+data

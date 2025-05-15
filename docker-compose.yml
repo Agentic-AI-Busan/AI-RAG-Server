@@ -15,6 +15,8 @@ services:
       - ./ai-server/project:/project
     ports:
       - "80:8000"  # 호스트의 8000 포트를 컨테이너의 8000 포트
+    networks:
+      - app_network
 
   ai-preprocessing:
     init: true
@@ -27,3 +29,27 @@ services:
     volumes:
       - ./ai-preprocessing/project:/project
       - ./data:/project/data
+    networks:
+      - app_network
+
+  streamlit_app:
+    init: true
+    container_name: streamlit-app
+    build:
+      context: ./streamlit-app
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./streamlit-app:/app
+    environment:
+      - API_BASE_URL=http://ai-server:8000
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - ai-server
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge

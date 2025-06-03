@@ -49,7 +49,7 @@ if prompt := st.chat_input("부산 여행에 대해 질문해주세요..."):
         try:
             # API 호출 (Query Router 사용)
             response = requests.post(
-                f"{API_BASE_URL}/route-test",
+                f"{API_BASE_URL}/chatbot",
                 json={"query": prompt, "chat_history": api_chat_history},
                 timeout=180 # 타임아웃 시간 증가 (LLM 응답이 길어질 수 있으므로)
             )

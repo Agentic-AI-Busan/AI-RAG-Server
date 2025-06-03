@@ -34,7 +34,7 @@ class RouteResponse(BaseModel):
     sources: List[Dict[str, Any]]
     chat_history_length: int
 
-@router.post("/route-test", response_model=RouteResponse)
+@router.post("/chatbot", response_model=RouteResponse)
 async def test_routing_post(
     request: RouteRequest,
     service: QueryRouterService = Depends(get_query_router_service) # 서비스 주입

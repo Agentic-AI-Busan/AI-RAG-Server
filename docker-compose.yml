@@ -32,14 +32,14 @@ services:
     networks:
       - app_network
 
-  streamlit_app:
+  streamlit-app:
     init: true
     container_name: streamlit-app
     build:
       context: ./streamlit-app
       dockerfile: Dockerfile
     ports:
-      - "8501:8501"
+      - "443:8501"
     volumes:
       - ./streamlit-app:/app
     environment:

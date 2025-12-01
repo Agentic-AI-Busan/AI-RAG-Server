@@ -5,6 +5,11 @@
 이 프로젝트는 초기 Naive RAG 시스템에서 발전하여, 더욱 정확하고 풍부한 정보를 제공하는 것을 목표로 합니다.
 이 프로젝트는 [OKESTRO AGI(주)](https://www.lifelogm.co.kr/index.html)의 지원을 받았습니다.
 
+## 소개 영상
+
+Agentic AI Busan의 전체 구조와 데모 시연은 다음 영상을 참고해 주세요.  
+👉 [Agentic AI Busan 프로젝트 발표 영상](https://youtu.be/ol9DNVQGlEg)
+
 ## 주요 기능
 *   **Advanced RAG:**
     *   **Hybrid Search:** 키워드 기반 검색(BM25)과 의미론적 벡터 검색을 결합하고, TMM-CC 정규화를 통해 검색 정확도를 극대화합니다. (현재 가중치 α=0.8 적용)
